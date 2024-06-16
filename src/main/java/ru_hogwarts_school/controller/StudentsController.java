@@ -33,16 +33,20 @@ public class StudentsController {
         return ResponseEntity.ok(student);
     }
 
+    @GetMapping("/age")
+    public Collection<Student> getAllStudentByAge(@RequestParam Integer age) {
+        return studentService.getAllStudentByAge(age);
+    }
+
     @GetMapping
-    public Collection<Student> getAllStudent(@RequestParam(required = false) Integer min,
-                                             @RequestParam(required = false) Integer max,
-                                             @RequestParam(required = false) Integer age) {
-        if (min != null && max != null) {
-            return studentService.findByAgeBetween(min, max);
-        } else if (age != null) {
-            return studentService.getAllStudentByAge(age);
-        }
+    public Collection<Student> getAllStudent() {
         return studentService.getAllStudent();
+    }
+
+    @GetMapping("/ageBetween")
+    public Collection<Student> findByAgeBetween(@RequestParam Integer min,
+                                                @RequestParam Integer max) {
+        return studentService.findByAgeBetween(min, max);
     }
 
     @PutMapping
@@ -56,8 +60,8 @@ public class StudentsController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Student> deleteStudent(@PathVariable Long id) {
-        studentService.deleteStudent(id);
-        return ResponseEntity.ok().build();
+        Student student = studentService.deleteStudent(id);
+        return ResponseEntity.ok(student);
     }
 
     @GetMapping("/{id}/faculty")
