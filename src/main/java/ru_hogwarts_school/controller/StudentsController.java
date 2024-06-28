@@ -1,5 +1,6 @@
 package ru_hogwarts_school.controller;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -68,5 +69,21 @@ public class StudentsController {
     public Faculty findFacultyFromStudent(@PathVariable long id) {
         return studentService.findFacultyFromStudent(id);
     }
+
+    @GetMapping("/number-of-all")
+    public Integer getNumberOfAllStudent() {
+        return studentService.getNumberOfAllStudent();
+    }
+
+    @GetMapping("/average-age")
+    public Integer getAverageAgeOfStudent() {
+        return studentService.getAverageAgeOfStudent();
+    }
+
+    @GetMapping("/last-five")
+    public Collection<Student> getLastFiveStudent() {
+        return studentService.getLastFiveStudent();
+    }
+
 
 }
