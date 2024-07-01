@@ -4,7 +4,7 @@ CREATE TABLE person
     name TEXT,
     age INTEGER,
     driver_id BOOLEAN,
-    car_id SERIAL REFERENCES car (id)
+    car_id INTEGER REFERENCES car (id)
 )
 
 CREATE TABLE car
