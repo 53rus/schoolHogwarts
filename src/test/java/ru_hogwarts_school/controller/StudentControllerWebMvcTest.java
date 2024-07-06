@@ -206,14 +206,14 @@ public class StudentControllerWebMvcTest {
         student.setId(id);
 
 
-        when(studentService.deleteStudent(any(Long.class))).thenReturn(student);
+        //when(studentService.deleteStudent(any(Long.class))).thenReturn(student);
+        doReturn(student).when(studentService).deleteStudent(anyLong());
 
         mockMvc.perform(MockMvcRequestBuilders
                         .delete("/student/" + id))
                 .andDo(print())
                 .andExpect(status().isOk());
 
-        //Выбрасывается исключение: ru_hogwarts_school.exception.StudentNotFoundException: Студент не найден
     }
 
 

@@ -215,7 +215,7 @@ public class StudentControllerTest {
         Student student = new Student();
         student.setName(name);
         student.setAge(age);
-        student.setFaculty(faculty);
+        student.setFaculty(newFaculty);
 
         Student addStudent = restTemplate
                 .postForObject("http://localhost:" + port + "/student", student, Student.class);

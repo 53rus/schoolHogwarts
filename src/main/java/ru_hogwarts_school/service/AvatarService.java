@@ -1,11 +1,12 @@
 package ru_hogwarts_school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import ru_hogwarts_school.exception.AvatarProcessingException;
 import ru_hogwarts_school.model.Avatar;
 import ru_hogwarts_school.model.Student;
 import ru_hogwarts_school.repository.AvatarRepository;
@@ -17,7 +18,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
-import java.util.List;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
@@ -31,12 +31,16 @@ public class AvatarService {
     private final StudentService studentService;
     private final AvatarRepository avatarRepository;
 
+    Logger logger = LoggerFactory.getLogger(AvatarService.class);
+
     public AvatarService(StudentService studentService, AvatarRepository avatarRepository) {
         this.studentService = studentService;
         this.avatarRepository = avatarRepository;
     }
 
     public void uploadAvatar(Long studentId, MultipartFile file) throws IOException {
+        logger.info("Was invoked method for upload avatar");
+
         Student student = studentService.getStudent(studentId);
 
         Path filePath = Path.of(avatarDir, studentId + "." + getExtension(file.getOriginalFilename()));
@@ -62,6 +66,8 @@ public class AvatarService {
     }
 
     public Avatar findAvatar(Long studentId) {
+        logger.info("Was invoked method for find avatar");
+
         return avatarRepository.findByStudentId(studentId).orElse(new Avatar());
 
     }
@@ -88,6 +94,8 @@ public class AvatarService {
     }
 
     public Collection<Avatar> getAllAvatar(Integer pageNumber, Integer pageSize) {
+        logger.info("Was invoked method for get all avatar");
+
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         return avatarRepository.findAll(pageRequest).getContent();
     }

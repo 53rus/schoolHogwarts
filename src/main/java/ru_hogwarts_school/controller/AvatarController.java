@@ -1,7 +1,6 @@
 package ru_hogwarts_school.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -11,20 +10,17 @@ import org.springframework.web.multipart.MultipartFile;
 import ru_hogwarts_school.model.Avatar;
 import ru_hogwarts_school.service.AvatarService;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
-import java.util.List;
 
 @RestController
 public class AvatarController {
 
     private final AvatarService avatarService;
-
 
     public AvatarController(AvatarService avatarService) {
         this.avatarService = avatarService;
