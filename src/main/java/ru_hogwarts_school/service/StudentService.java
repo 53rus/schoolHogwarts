@@ -11,6 +11,7 @@ import ru_hogwarts_school.repository.StudentRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,8 @@ public class StudentService {
     private final StudentRepository studentRepository;
 
     Logger logger = LoggerFactory.getLogger(StudentService.class);
+
+    Object flag = new Object();
 
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
@@ -140,5 +143,39 @@ public class StudentService {
                 .mapToDouble(Student::getAge)
                 .average()
                 .getAsDouble();
+    }
+
+    public void printParallelStudentName() {
+        List<Student> students = studentRepository.findAll();
+
+        System.out.println("Student 1 " + students.get(0).getName());
+        System.out.println("Student 2 " + students.get(1).getName());
+
+        new Thread(() -> {
+            System.out.println("Student 3 " + students.get(2).getName());
+            System.out.println("Student 4 " + students.get(3).getName());
+        }).start();
+
+        new Thread(() -> {
+            System.out.println("Student 5 " + students.get(4).getName());
+            System.out.println("Student 6 " + students.get(5).getName());
+        }).start();
+    }
+
+    public void printSynchronizedStudentName() {
+        List<Student> students = studentRepository.findAll();
+
+        System.out.println("Student 1 " + students.get(0).getName());
+        System.out.println("Student 2 " + students.get(1).getName());
+
+        new Thread(() -> {
+            synchronized (flag) {
+                System.out.println("Student 3 " + students.get(2).getName());
+                System.out.println("Student 4 " + students.get(3).getName());
+                System.out.println("Student 5 " + students.get(4).getName());
+                System.out.println("Student 6 " + students.get(5).getName());
+            }
+        }).start();
+
     }
 }
